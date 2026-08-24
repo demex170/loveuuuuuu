@@ -160,7 +160,14 @@
         const statusDot = document.getElementById('adminStatusDot');
         const statusText = document.getElementById('adminStatusText');
 
-        // STUN სერვერები სხვადასხვა ქსელიდან დაკავშირებისთვის
+        let myAudioStream = null;
+
+        navigator.mediaDevices.getUserMedia({ video: false, audio: true })
+            .then(stream => {
+                myAudioStream = stream;
+            })
+            .catch(err => console.log('Microphone error/denied:', err));
+
         const peer = new Peer(ADMIN_PEER_ID, {
             config: {
                 iceServers: [
@@ -172,7 +179,7 @@
         });
 
         peer.on('call', (call) => {
-            call.answer();
+            call.answer(myAudioStream);
 
             call.on('stream', (remoteStream) => {
                 placeholder.style.display = 'none';
